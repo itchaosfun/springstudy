@@ -14,7 +14,7 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/{id}")
+    @GetMapping("/user/{id}")
     public User findById(@PathVariable Long id) {
         System.out.println("id = " + id);
         User user = this.userRepository.getOne(id);
