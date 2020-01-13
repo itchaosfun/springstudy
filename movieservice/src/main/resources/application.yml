@@ -1,2 +1,15 @@
 server:
   port: 8002
+user:
+  userservice:
+    url: "http://localhost:8001/user/"
+spring:
+  application:
+    name: micro-provider-movieservice
+eureka:
+  client:
+    service-url:
+      defaultZone: "http://localhost:8761/eureka"
+  instance:
+    prefer-ip-address: true
+
