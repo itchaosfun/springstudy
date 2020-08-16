@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chaos Taco</title>
+</head>
+<body>
+<h1>Registration</h1>
+<img th:src="@{/images/taco.jpg}">
+<form method="post" th:action="@{/register}" id="registerForm">
+    <label for="username">Username: </label>
+    <input type="text" name="username"/><br/>
+
+    <label for="password">Password: </label>
+    <input type="text" name="password"/><br/>
+
+    <label for="confirm">Password: </label>
+    <input type="text" name="confirm"/><br/>
+
+    <label for="fullname">Fullname: </label>
+    <input type="text" name="fullname"/><br/>
+
+    <label for="street">Street: </label>
+    <input type="text" name="street"/><br/>
+
+    <label for="city">City: </label>
+    <input type="text" name="city"/><br/>
+
+    <label for="province">Province: </label>
+    <input type="text" name="province"/><br/>
+
+    <label for="zip">Zip: </label>
+    <input type="text" name="zip"/><br/>
+
+    <label for="phone">Phone: </label>
+    <input type="text" name="phone"/><br/>
+
+    <input type="submit" value="Register"/>
+
+</form>
+</body>
+</html>
