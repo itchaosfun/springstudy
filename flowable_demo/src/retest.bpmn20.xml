@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
+  <process id="retest" name="retest" isExecutable="true">
+    <startEvent id="start"/>
+    <userTask id="process" isForCompensation="false"/>
+    <sequenceFlow id="sid-8688d254-141c-4730-a9e0-c79f4d6beffb" sourceRef="start" targetRef="process"/>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_retest">
+    <bpmndi:BPMNPlane bpmnElement="retest" id="BPMNPlane_retest">
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-cd0f55a1-e306-4c21-b405-6900c6f1a03b" bpmnElement="start">
+        <omgdc:Bounds x="107.0" y="150.0" width="30.0" height="30.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNShape xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="shape-bcb9660d-9fde-4288-92e5-1782e4182bc5" bpmnElement="process">
+        <omgdc:Bounds x="232.0" y="125.0" width="100.0" height="80.0"/>
+      </bpmdi:BPMNShape>
+      <bpmdi:BPMNEdge xmlns:bpmdi="http://www.omg.org/spec/BPMN/20100524/DI" id="edge-b9aee7ac-e94a-4184-9c26-0b03d9216997" bpmnElement="sid-8688d254-141c-4730-a9e0-c79f4d6beffb">
+        <omgdi:waypoint x="137.0" y="165.0"/>
+        <omgdi:waypoint x="232.0" y="165.0"/>
+      </bpmdi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
