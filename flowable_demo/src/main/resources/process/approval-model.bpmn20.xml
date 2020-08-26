@@ -2,7 +2,7 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
   <process id="approval" name="approval-model" isExecutable="true">
     <startEvent id="approval_start" name="approvalStart"></startEvent>
-    <userTask id="approval_user_task" name="approvalUserTask" flowable:assignee="${userId}">
+    <userTask id="approval_user_task" name="approvalUserTask" flowable:assignee="${userId}" flowable:formKey="${formKey}">
       <extensionElements>
         <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
       </extensionElements>
@@ -11,13 +11,13 @@
     <exclusiveGateway id="approval_exclusive" name="approvalExclusive"></exclusiveGateway>
     <sequenceFlow id="sid-040A4108-0132-4501-9A9C-D913AE8D01F7" sourceRef="approval_user_task" targetRef="approval_exclusive">
     </sequenceFlow>
-    <serviceTask id="approve_service" name="approveService" flowable:class="com.example.flowable_demo.event.ApprovedEvent"></serviceTask>
-    <serviceTask id="reject_service" name="rejectService" flowable:class="com.example.flowable_demo.event.RejectEvent"></serviceTask>
+    <serviceTask id="approve_service" name="approveService" flowable:class="com.cmsr.carjoy.tsop.workflow.flowable.listener.ApprovedEventListener"></serviceTask>
+    <serviceTask id="reject_service" name="rejectService" flowable:class="com.cmsr.carjoy.tsop.workflow.flowable.listener.RejectEventListener"></serviceTask>
     <sequenceFlow id="sid-AABA80F8-C6C3-4F92-B402-69F337B6D593" sourceRef="approval_exclusive" targetRef="approve_service">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${approved}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${audit==1}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="sid-90A0B7BB-23D1-42B2-841A-DE20AF460F7D" sourceRef="approval_exclusive" targetRef="reject_service">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${!approved}]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${audit==0}]]></conditionExpression>
     </sequenceFlow>
     <endEvent id="approve_end" name="approveEnd"></endEvent>
     <sequenceFlow id="sid-58BF58B0-9947-40FB-AEC6-C62A926F88D5" sourceRef="approve_service" targetRef="approve_end"></sequenceFlow>

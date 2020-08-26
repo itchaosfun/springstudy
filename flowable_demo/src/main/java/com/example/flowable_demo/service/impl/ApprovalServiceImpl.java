@@ -89,9 +89,9 @@ public class ApprovalServiceImpl implements ApprovalService {
             return null;
         }
 
-        Deployment deployment = repositoryService.createDeploymentQuery().processDefinitionKey(processKey).singleResult();
+        List<Deployment> deployments = repositoryService.createDeploymentQuery().processDefinitionKey(processKey).list();
 
-        if (deployment == null) {
+        if (null == deployments || deployments.isEmpty()) {
             log.error("没有该流程");
             return null;
         }

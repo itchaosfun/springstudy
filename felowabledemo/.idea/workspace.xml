@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5116f05e-b083-4ac9-949c-2e036e988712" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../flowable_demo/src/main/java/com/example/flowable_demo/service/ApprovalService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../flowable_demo/src/main/java/com/example/flowable_demo/service/impl/ApprovalServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../flowable_demo/src/main/resources/process/approval-model.bpmn20.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/felowabledemo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/felowabledemo.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flowable_demo/src/main/java/com/example/flowable_demo/controller/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../flowable_demo/src/main/java/com/example/flowable_demo/controller/ApprovalController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flowable_demo/src/main/java/com/example/flowable_demo/event/ApprovedEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/../flowable_demo/src/main/java/com/example/flowable_demo/event/ApprovedEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flowable_demo/src/main/java/com/example/flowable_demo/event/RejectEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/../flowable_demo/src/main/java/com/example/flowable_demo/event/RejectEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../flowable_demo/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../flowable_demo/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +99,8 @@
       <workItem from="1597729698160" duration="4889000" />
       <workItem from="1598184894063" duration="655000" />
       <workItem from="1598280093785" duration="1519000" />
-      <workItem from="1598284409136" duration="863000" />
+      <workItem from="1598284409136" duration="1069000" />
+      <workItem from="1598318351859" duration="62000" />
     </task>
     <servers />
   </component>
