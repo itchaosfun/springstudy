@@ -1,10 +1,9 @@
-package com.example.flowable_demo.service.impl;
+package com.example.flowable_demo.service;
 
-import com.example.flowable_demo.feign.CommodityFeignClient;
-import com.example.flowable_demo.service.ApprovalService;
 import lombok.extern.slf4j.Slf4j;
 import org.flowable.bpmn.converter.BpmnXMLConverter;
 import org.flowable.bpmn.model.BpmnModel;
+import org.flowable.bpmn.model.Process;
 import org.flowable.common.engine.impl.identity.Authentication;
 import org.flowable.engine.HistoryService;
 import org.flowable.engine.RepositoryService;
@@ -19,15 +18,11 @@ import org.flowable.task.service.delegate.DelegateTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-
+import org.springframework.util.StringUtils;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.File;
-
-import org.flowable.bpmn.model.Process;
-import org.springframework.util.StringUtils;
-
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -36,7 +31,7 @@ import java.util.Map;
 
 @Slf4j
 @Service
-public class ApprovalServiceImpl implements ApprovalService {
+public class DelayServiceImpl implements ApprovalService {
 
     @Autowired
     private RepositoryService repositoryService;
@@ -77,7 +72,7 @@ public class ApprovalServiceImpl implements ApprovalService {
 
             Deployment deployment = deploymentBuilder.deploy();
             res.put("deployment", deployment);
-            log.warn("部署流程 name:" + curProcess.getName() + " key " + deployment.getKey() + " approval " + deployment);
+            log.warn("部署流程 name:" + curProcess.getName() + " key " + deployment.getKey() + " deploy " + deployment);
             return res;
         } catch (Exception e) {
             log.error("BPMN模型创建流程异常", e);
@@ -110,13 +105,13 @@ public class ApprovalServiceImpl implements ApprovalService {
         Authentication.setAuthenticatedUserId(startUserId);
 
         Map<String, Object> paras = new HashMap<>();
-        paras.put("approvalRole", approvalUserId);
+        paras.put("approvalUserId", approvalUserId);
         return runtimeService.startProcessInstanceByKey(processKey, businessKey, paras);
     }
 
     @Override
     public List<Task> getTask(String userId) {
-        List<Task> list = taskService.createTaskQuery().orderByTaskCreateTime().desc().list();
+        List<Task> list = taskService.createTaskQuery().taskAssignee(userId).orderByTaskCreateTime().desc().list();
         for (Task task : list) {
             String processInstanceId = task.getProcessInstanceId();
             List<Comment> taskComments = taskService.getProcessInstanceComments(processInstanceId);

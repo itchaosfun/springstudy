@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
+  <process id="delay" name="delay-model" isExecutable="true">
+    <startEvent id="delay_start" name="delayStart"></startEvent>
+    <userTask id="delay_user_task" name="delayUserTask">
+      <extensionElements>
+          <flowable:taskListener event="create" delegateExpression="${baseTaskListener}"></flowable:taskListener>
+          <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-DEAAFD16-02C2-4681-96EF-754C8DAF2A4A" sourceRef="delay_start" targetRef="delay_user_task"></sequenceFlow>
+    <exclusiveGateway id="delay_exclusive" name="delayExclusive"></exclusiveGateway>
+    <sequenceFlow id="sid-7C223178-D438-40EF-BF07-2B8AAA871D7C" sourceRef="delay_user_task" targetRef="delay_exclusive"></sequenceFlow>
+    <serviceTask id="delay_approval_service" name="delayApprovalService" flowable:delegateExpression="${baseJavaDelegate}"></serviceTask>
+    <serviceTask id="delay_reject_service" name="delayRejectService" flowable:delegateExpression="${baseJavaDelegate}"></serviceTask>
+    <sequenceFlow id="sid-BD252B22-DC9B-4A92-8409-419909DEEF1C" sourceRef="delay_exclusive" targetRef="delay_approval_service"></sequenceFlow>
+    <sequenceFlow id="sid-BFCD39B5-2BA0-4065-B881-A72C12718974" sourceRef="delay_exclusive" targetRef="delay_reject_service"></sequenceFlow>
+    <endEvent id="delay_end" name="delay_end"></endEvent>
+    <sequenceFlow id="sid-79282592-241E-482C-A408-2D1A87A86575" sourceRef="delay_approval_service" targetRef="delay_end"></sequenceFlow>
+    <sequenceFlow id="sid-C2FD7392-E86E-4B9D-B41E-C0CB4A34BC00" sourceRef="delay_reject_service" targetRef="delay_end"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_delay">
+    <bpmndi:BPMNPlane bpmnElement="delay" id="BPMNPlane_delay">
+      <bpmndi:BPMNShape bpmnElement="delay_start" id="BPMNShape_delay_start">
+        <omgdc:Bounds height="30.0" width="30.0" x="100.0" y="163.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="delay_user_task" id="BPMNShape_delay_user_task">
+        <omgdc:Bounds height="80.0" width="100.0" x="249.39999389648438" y="138.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="delay_exclusive" id="BPMNShape_delay_exclusive">
+        <omgdc:Bounds height="40.0" width="40.0" x="457.3999938964844" y="158.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="delay_approval_service" id="BPMNShape_delay_approval_service">
+        <omgdc:Bounds height="80.0" width="100.0" x="672.3999938964844" y="65.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="delay_reject_service" id="BPMNShape_delay_reject_service">
+        <omgdc:Bounds height="80.0" width="100.0" x="672.3999938964844" y="226.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="delay_end" id="BPMNShape_delay_end">
+        <omgdc:Bounds height="28.0" width="28.0" x="1082.3999938964844" y="157.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-BFCD39B5-2BA0-4065-B881-A72C12718974" id="BPMNEdge_sid-BFCD39B5-2BA0-4065-B881-A72C12718974">
+        <omgdi:waypoint x="491.8542923005795" y="183.49435240963854"></omgdi:waypoint>
+        <omgdi:waypoint x="672.3999938964844" y="248.10633946830265"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-79282592-241E-482C-A408-2D1A87A86575" id="BPMNEdge_sid-79282592-241E-482C-A408-2D1A87A86575">
+        <omgdi:waypoint x="772.3499938964843" y="113.81470588235294"></omgdi:waypoint>
+        <omgdi:waypoint x="1082.6040390299565" y="168.5665998250238"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-7C223178-D438-40EF-BF07-2B8AAA871D7C" id="BPMNEdge_sid-7C223178-D438-40EF-BF07-2B8AAA871D7C">
+        <omgdi:waypoint x="349.3499938964844" y="178.13991596638658"></omgdi:waypoint>
+        <omgdi:waypoint x="457.8438141212035" y="178.4438202247191"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-DEAAFD16-02C2-4681-96EF-754C8DAF2A4A" id="BPMNEdge_sid-DEAAFD16-02C2-4681-96EF-754C8DAF2A4A">
+        <omgdi:waypoint x="129.94999946245454" y="178.0"></omgdi:waypoint>
+        <omgdi:waypoint x="249.3999938964346" y="178.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-BD252B22-DC9B-4A92-8409-419909DEEF1C" id="BPMNEdge_sid-BD252B22-DC9B-4A92-8409-419909DEEF1C">
+        <omgdi:waypoint x="493.238908990824" y="173.87735849056602"></omgdi:waypoint>
+        <omgdi:waypoint x="672.3999938964844" y="120.01564417177916"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-C2FD7392-E86E-4B9D-B41E-C0CB4A34BC00" id="BPMNEdge_sid-C2FD7392-E86E-4B9D-B41E-C0CB4A34BC00">
+        <omgdi:waypoint x="772.3499938964842" y="253.29946524064172"></omgdi:waypoint>
+        <omgdi:waypoint x="1082.8276562802648" y="174.43520634575708"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
+  <process id="approval" name="approval-model" isExecutable="true">
+    <startEvent id="approval_start" name="approvalStart"></startEvent>
+    <userTask id="approval_user_task" name="approvalUserTask" flowable:assignee="${userId}"></userTask>
+    <sequenceFlow id="sid-6BF03F7E-1D43-4D44-82C9-29794D3F9001" sourceRef="approval_start" targetRef="approval_user_task"></sequenceFlow>
+    <exclusiveGateway id="approval_exclusive" name="approvalExclusive"></exclusiveGateway>
+    <sequenceFlow id="sid-040A4108-0132-4501-9A9C-D913AE8D01F7" sourceRef="approval_user_task" targetRef="approval_exclusive"></sequenceFlow>
+    <serviceTask id="approve_service" name="approveService" flowable:delegateExpression="${baseJavaDelegate}">
+    </serviceTask>
+    <serviceTask id="reject_service" name="rejectService" flowable:delegateExpression="${baseJavaDelegate}">
+    </serviceTask>
+    <sequenceFlow id="sid-AABA80F8-C6C3-4F92-B402-69F337B6D593" sourceRef="approval_exclusive" targetRef="approve_service">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${audit==1}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-90A0B7BB-23D1-42B2-841A-DE20AF460F7D" sourceRef="approval_exclusive" targetRef="reject_service">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${audit==0}]]></conditionExpression>
+    </sequenceFlow>
+    <endEvent id="approve_end" name="approveEnd"></endEvent>
+    <sequenceFlow id="sid-58BF58B0-9947-40FB-AEC6-C62A926F88D5" sourceRef="approve_service" targetRef="approve_end"></sequenceFlow>
+    <userTask id="recommitUserTask" name="recommitUserTask" flowable:assignee="$INITIATOR">
+      <extensionElements>
+        <modeler:activiti-idm-initiator xmlns:modeler="http://flowable.org/modeler"><![CDATA[true]]></modeler:activiti-idm-initiator>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-D51039BF-6588-4DE1-A1FB-4C1C13DB234E" sourceRef="reject_service" targetRef="recommitUserTask"></sequenceFlow>
+    <sequenceFlow id="sid-3FF850FF-0939-49F2-AC7D-9B0A9ED6A16D" sourceRef="recommitUserTask" targetRef="approval_user_task"></sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_approval">
+    <bpmndi:BPMNPlane bpmnElement="approval" id="BPMNPlane_approval">
+      <bpmndi:BPMNShape bpmnElement="approval_start" id="BPMNShape_approval_start">
+        <omgdc:Bounds height="30.0" width="30.0" x="100.0" y="163.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approval_user_task" id="BPMNShape_approval_user_task">
+        <omgdc:Bounds height="80.0" width="100.0" x="175.0" y="138.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approval_exclusive" id="BPMNShape_approval_exclusive">
+        <omgdc:Bounds height="40.0" width="40.0" x="320.0" y="158.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve_service" id="BPMNShape_approve_service">
+        <omgdc:Bounds height="80.0" width="100.0" x="585.0" y="45.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="reject_service" id="BPMNShape_reject_service">
+        <omgdc:Bounds height="80.0" width="100.0" x="585.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve_end" id="BPMNShape_approve_end">
+        <omgdc:Bounds height="28.0" width="28.0" x="765.0" y="71.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="recommitUserTask" id="BPMNShape_recommitUserTask">
+        <omgdc:Bounds height="80.0" width="100.0" x="180.0" y="240.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-040A4108-0132-4501-9A9C-D913AE8D01F7" id="BPMNEdge_sid-040A4108-0132-4501-9A9C-D913AE8D01F7">
+        <omgdi:waypoint x="274.94999999999806" y="178.21623376623378"></omgdi:waypoint>
+        <omgdi:waypoint x="320.4130434782609" y="178.4130434782609"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-58BF58B0-9947-40FB-AEC6-C62A926F88D5" id="BPMNEdge_sid-58BF58B0-9947-40FB-AEC6-C62A926F88D5">
+        <omgdi:waypoint x="684.9499999999969" y="85.0"></omgdi:waypoint>
+        <omgdi:waypoint x="765.0" y="85.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-6BF03F7E-1D43-4D44-82C9-29794D3F9001" id="BPMNEdge_sid-6BF03F7E-1D43-4D44-82C9-29794D3F9001">
+        <omgdi:waypoint x="129.9499984899576" y="178.0"></omgdi:waypoint>
+        <omgdi:waypoint x="174.9999999999917" y="178.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-AABA80F8-C6C3-4F92-B402-69F337B6D593" id="BPMNEdge_sid-AABA80F8-C6C3-4F92-B402-69F337B6D593">
+        <omgdi:waypoint x="355.6424613402062" y="173.68041237113403"></omgdi:waypoint>
+        <omgdi:waypoint x="585.0" y="100.85848896434636"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-90A0B7BB-23D1-42B2-841A-DE20AF460F7D" id="BPMNEdge_sid-90A0B7BB-23D1-42B2-841A-DE20AF460F7D">
+        <omgdi:waypoint x="354.5917003281999" y="183.35713383838387"></omgdi:waypoint>
+        <omgdi:waypoint x="585.0" y="262.76740237691"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-D51039BF-6588-4DE1-A1FB-4C1C13DB234E" id="BPMNEdge_sid-D51039BF-6588-4DE1-A1FB-4C1C13DB234E">
+        <omgdi:waypoint x="585.0" y="280.11724664213517"></omgdi:waypoint>
+        <omgdi:waypoint x="279.94999999999686" y="280.833284443603"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-3FF850FF-0939-49F2-AC7D-9B0A9ED6A16D" id="BPMNEdge_sid-3FF850FF-0939-49F2-AC7D-9B0A9ED6A16D">
+        <omgdi:waypoint x="228.0392156862745" y="240.0"></omgdi:waypoint>
+        <omgdi:waypoint x="226.95833333333334" y="217.95000000000002"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

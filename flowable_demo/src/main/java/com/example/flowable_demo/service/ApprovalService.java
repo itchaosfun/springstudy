@@ -2,7 +2,7 @@ package com.example.flowable_demo.service;
 
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
-import org.springframework.stereotype.Service;
+import org.flowable.task.service.delegate.DelegateTask;
 
 import java.util.List;
 import java.util.Map;
@@ -18,10 +18,13 @@ public interface ApprovalService {
 
     /**
      * 启动工作流
+     *
+     * @param startUserId
+     * @param approvalUserId
      * @param processKey
      * @return
      */
-    ProcessInstance startFlow(String userId, String processKey);
+    ProcessInstance startFlow(String startUserId, String approvalUserId, String processKey, String businessKey);
 
 
     /**
@@ -30,6 +33,14 @@ public interface ApprovalService {
      * @return
      */
     List<Task> getTask(String userId);
+
+    /**
+     * 提交
+     * @param taskId
+     * @param id
+     * @return
+     */
+    Boolean commit(String taskId, String approvalUserId, String id);
 
     /**
      * 通过
@@ -41,8 +52,10 @@ public interface ApprovalService {
     /**
      * 拒绝
      * @param taskId
+     * @param comment
      * @return
      */
-    Boolean reject(String taskId);
+    Boolean reject(String taskId, String comment);
 
+    void transBusinessTask(DelegateTask delegateTask);
 }

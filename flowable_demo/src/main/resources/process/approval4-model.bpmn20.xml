@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:flowable="http://flowable.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.flowable.org/processdef">
+  <process id="approval" name="approval-model" isExecutable="true">
+    <startEvent id="approval_start" name="approvalStart"></startEvent>
+
+    <userTask id="approval_user_task" name="approvalUserTask" flowable:candidateGroups="${approvalRole}">
+      <extensionElements>
+        <flowable:taskListener event="create" delegateExpression="${baseTaskListener}"></flowable:taskListener>
+        <modeler:initiator-can-complete xmlns:modeler="http://flowable.org/modeler"><![CDATA[false]]></modeler:initiator-can-complete>
+      </extensionElements>
+    </userTask>
+
+    <exclusiveGateway id="approval_exclusive" name="approvalExclusive"></exclusiveGateway>
+    <sequenceFlow id="sid-040A4108-0132-4501-9A9C-D913AE8D01F7" sourceRef="approval_user_task" targetRef="approval_exclusive"></sequenceFlow>
+    <serviceTask id="approve_service" name="approveService" flowable:delegateExpression="${baseJavaDelegate}"></serviceTask>
+    <sequenceFlow id="sid-AABA80F8-C6C3-4F92-B402-69F337B6D593" sourceRef="approval_exclusive" targetRef="approve_service">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${audit==1}]]></conditionExpression>
+    </sequenceFlow>
+
+    <endEvent id="approve_end" name="approveEnd"></endEvent>
+    <sequenceFlow id="sid-58BF58B0-9947-40FB-AEC6-C62A926F88D5" sourceRef="approve_service" targetRef="approve_end"></sequenceFlow>
+
+    <serviceTask id="reject_service" name="rejectService" flowable:delegateExpression="${baseJavaDelegate}"></serviceTask>
+    <sequenceFlow id="sid-90A0B7BB-23D1-42B2-841A-DE20AF460F7D" sourceRef="approval_exclusive" targetRef="reject_service">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${audit==0}]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-6BF03F7E-1D43-4D44-82C9-29794D3F9001" sourceRef="approval_start" targetRef="approval_user_task"></sequenceFlow>
+
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_approval">
+    <bpmndi:BPMNPlane bpmnElement="approval" id="BPMNPlane_approval">
+      <bpmndi:BPMNShape bpmnElement="approval_start" id="BPMNShape_approval_start">
+        <omgdc:Bounds height="30.0" width="30.0" x="60.0" y="175.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approval_user_task" id="BPMNShape_approval_user_task">
+        <omgdc:Bounds height="80.0" width="100.0" x="240.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approval_exclusive" id="BPMNShape_approval_exclusive">
+        <omgdc:Bounds height="40.0" width="40.0" x="525.0" y="170.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve_service" id="BPMNShape_approve_service">
+        <omgdc:Bounds height="80.0" width="100.0" x="735.0" y="150.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="approve_end" id="BPMNShape_approve_end">
+        <omgdc:Bounds height="28.0" width="28.0" x="930.0" y="176.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="reject_service" id="BPMNShape_reject_service">
+        <omgdc:Bounds height="80.0" width="100.0" x="738.3999938964844" y="315.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge bpmnElement="sid-040A4108-0132-4501-9A9C-D913AE8D01F7" id="BPMNEdge_sid-040A4108-0132-4501-9A9C-D913AE8D01F7">
+        <omgdi:waypoint x="339.94999999998714" y="190.0977495107632"></omgdi:waypoint>
+        <omgdi:waypoint x="525.4607843137146" y="190.46078431372547"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-58BF58B0-9947-40FB-AEC6-C62A926F88D5" id="BPMNEdge_sid-58BF58B0-9947-40FB-AEC6-C62A926F88D5">
+        <omgdi:waypoint x="834.9499999999999" y="190.0"></omgdi:waypoint>
+        <omgdi:waypoint x="930.0" y="190.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-6BF03F7E-1D43-4D44-82C9-29794D3F9001" id="BPMNEdge_sid-6BF03F7E-1D43-4D44-82C9-29794D3F9001">
+        <omgdi:waypoint x="89.94999933672415" y="190.0"></omgdi:waypoint>
+        <omgdi:waypoint x="240.0" y="190.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-AABA80F8-C6C3-4F92-B402-69F337B6D593" id="BPMNEdge_sid-AABA80F8-C6C3-4F92-B402-69F337B6D593">
+        <omgdi:waypoint x="564.4856649937265" y="190.46025104602515"></omgdi:waypoint>
+        <omgdi:waypoint x="735.0" y="190.10427974947805"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-90A0B7BB-23D1-42B2-841A-DE20AF460F7D" id="BPMNEdge_sid-90A0B7BB-23D1-42B2-841A-DE20AF460F7D">
+        <omgdi:waypoint x="545.5" y="209.4386662679426"></omgdi:waypoint>
+        <omgdi:waypoint x="545.5" y="274.0"></omgdi:waypoint>
+        <omgdi:waypoint x="788.3999938964844" y="274.0"></omgdi:waypoint>
+        <omgdi:waypoint x="788.3999938964844" y="315.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-FD527E26-A2AD-4CCC-A86E-86B177739EC9" id="BPMNEdge_sid-FD527E26-A2AD-4CCC-A86E-86B177739EC9">
+        <omgdi:waypoint x="738.3999938963398" y="355.0"></omgdi:waypoint>
+        <omgdi:waypoint x="339.94999999950863" y="355.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="sid-3FF850FF-0939-49F2-AC7D-9B0A9ED6A16D" id="BPMNEdge_sid-3FF850FF-0939-49F2-AC7D-9B0A9ED6A16D">
+        <omgdi:waypoint x="290.0" y="315.0"></omgdi:waypoint>
+        <omgdi:waypoint x="290.0" y="229.95000000000002"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>

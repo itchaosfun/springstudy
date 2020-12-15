@@ -1,16 +1,16 @@
 package com.example.flowable_demo.controller;
 
-import com.example.flowable_demo.service.ApprovalService;
-import com.example.flowable_demo.service.impl.ApprovalServiceImpl;
+import com.example.flowable_demo.service.DelayServiceImpl;
 import lombok.extern.slf4j.Slf4j;
+import org.flowable.bpmn.model.Process;
 import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
-import org.flowable.bpmn.model.Process;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,13 +19,13 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping(value = "/approval")
-public class ApprovalController {
+@RequestMapping(value = "/delay")
+public class DelayController {
 
-    private final ApprovalServiceImpl approvalService;
+    private final DelayServiceImpl delayService;
 
-    public ApprovalController(ApprovalServiceImpl approvalService) {
-        this.approvalService = approvalService;
+    public DelayController(DelayServiceImpl delayService) {
+        this.delayService = delayService;
     }
 
     @GetMapping("/create")
@@ -34,9 +34,9 @@ public class ApprovalController {
         Map<String, Object> res = new HashMap<>();
         Map<String, Object> data = new HashMap<>();
 
-        String flowPath = "src/main/resources/process/approval4-model.bpmn20.xml";
+        String flowPath = "src/main/resources/process/delay-model.bpmn20.xml";
 
-        Map<String, Object> createRes = approvalService.createFlow(flowPath);
+        Map<String, Object> createRes = delayService.createFlow(flowPath);
 
         if (null == createRes) {
             res.put("msg", "创建流程失败");
@@ -101,7 +101,7 @@ public class ApprovalController {
             return res;
         }
 
-        ProcessInstance processInstance = approvalService.startFlow(startUserId, approvalUserId, processKey, businessKey);
+        ProcessInstance processInstance = delayService.startFlow(startUserId, approvalUserId, processKey, businessKey);
         if (null == processInstance) {
             res.put("msg", "启动流程失败");
             res.put("res", "0");
@@ -143,7 +143,7 @@ public class ApprovalController {
             res.put("data", data);
         }
 
-        Boolean approve = approvalService.commit(taskId, approvalUserId, commodityId);
+        Boolean approve = delayService.commit(taskId, approvalUserId, commodityId);
         res.put("msg", "审批成功");
         res.put("res", "1");
         res.put("data", data);
@@ -163,7 +163,7 @@ public class ApprovalController {
             res.put("data", data);
         }
 
-        Boolean approve = approvalService.approve(taskId);
+        Boolean approve = delayService.approve(taskId);
         res.put("msg", "审批成功");
         res.put("res", "1");
         res.put("data", data);
@@ -183,7 +183,7 @@ public class ApprovalController {
             res.put("data", data);
         }
 
-        Boolean approve = approvalService.reject(taskId, comment);
+        Boolean approve = delayService.reject(taskId, comment);
         res.put("msg", "拒绝成功");
         res.put("res", "1");
         res.put("data", data);
@@ -203,7 +203,7 @@ public class ApprovalController {
             res.put("data", data);
         }
 
-        List<Task> tasks = approvalService.getTask(userId);
+        List<Task> tasks = delayService.getTask(userId);
         for (Task task : tasks) {
             Map<String, Object> taskLocalVariables = task.getTaskLocalVariables();
             log.info("task = {}, variable = {}", task, taskLocalVariables);
